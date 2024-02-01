@@ -96,6 +96,7 @@ export * from '@sentry/node-experimental';
 
 export {
   captureRemixServerException,
+  // eslint-disable-next-line deprecation/deprecation
   wrapRemixHandleError,
   sentryHandleError,
   wrapHandleErrorWithSentry,
