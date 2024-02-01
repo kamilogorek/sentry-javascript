@@ -241,6 +241,10 @@ Instead of an `transactionContext` being passed to the `tracesSampler` callback,
 will be removed in v8. Note that the `attributes` are only the attributes at span creation time, and some attributes may
 only be set later during the span lifecycle (and thus not be available during sampling).
 
+## Deprecate `wrapRemixHandleError` in Remix SDK (since v7.100.0)
+
+This release deprecates `wrapRemixHandleError` in favor of using `sentryHandleError` from`@sentry/remix`.
+
 ## Deprecate using `getClient()` to check if the SDK was initialized
 
 In v8, `getClient()` will stop returning `undefined` if `Sentry.init()` was not called. For cases where this may be used
@@ -1135,8 +1139,8 @@ version.
 ### Import Changes
 
 Due to the compiler change, our NPM package structure changed as well as it now conforms to the
-[Angular Package Format v10](https://docs.google.com/document/d/1uh2D6XqaGh2yjjXwfF4SrJqWl1MBhMPntlNBBsk6rbw/edit). In
-case you're importing from specific paths other than `@sentry/angular` you will have to adjust these paths. As an
+[**Angular** Package Format v10](https://docs.google.com/document/d/1uh2D6XqaGh2yjjXwfF4SrJqWl1MBhMPntlNBBsk6rbw/edit).
+In case you're importing from specific paths other than `@sentry/angular` you will have to adjust these paths. As an
 example, `import ... from '@sentry/angular/esm/injex.js'` should be changed to
 `import ... from '@sentry/angular/esm2015/index.js'`. Generally, we strongly recommend only importing from
 `@sentry/angular`.
