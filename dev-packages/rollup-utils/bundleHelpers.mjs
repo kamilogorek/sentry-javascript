@@ -25,12 +25,12 @@ import { mergePlugins } from './utils.mjs';
 const BUNDLE_VARIANTS = ['.js', '.min.js', '.debug.min.js'];
 
 export function makeBaseBundleConfig(options) {
-  const { bundleType, entrypoints, jsVersion, licenseTitle, outputFileBase, packageSpecificConfig } = options;
+  const { bundleType, entrypoints, jsVersion, licenseTitle, outputFileBase, packageSpecificConfig, sucrase } = options;
 
   const isEs5 = jsVersion.toLowerCase() === 'es5';
 
   const nodeResolvePlugin = makeNodeResolvePlugin();
-  const sucrasePlugin = makeSucrasePlugin();
+  const sucrasePlugin = makeSucrasePlugin(sucrase);
   const cleanupPlugin = makeCleanupPlugin();
   const markAsBrowserBuildPlugin = makeBrowserBuildPlugin(true);
   const licensePlugin = makeLicensePlugin(licenseTitle);

@@ -28,10 +28,11 @@ export function makeBaseNPMConfig(options = {}) {
     hasBundles = false,
     packageSpecificConfig = {},
     addPolyfills = true,
+    sucrase = {},
   } = options;
 
   const nodeResolvePlugin = makeNodeResolvePlugin();
-  const sucrasePlugin = makeSucrasePlugin({ disableESTransforms: !addPolyfills });
+  const sucrasePlugin = makeSucrasePlugin({ disableESTransforms: !addPolyfills, ...sucrase });
   const debugBuildStatementReplacePlugin = makeDebugBuildStatementReplacePlugin();
   const cleanupPlugin = makeCleanupPlugin();
   const extractPolyfillsPlugin = makeExtractPolyfillsPlugin();
