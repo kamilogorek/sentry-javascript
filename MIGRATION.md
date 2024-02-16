@@ -97,7 +97,7 @@ Sentry SDK requires the fetch API to be available in the environment.
 
 ## General API Changes
 
-- The minumum supported Node version for all the SDK packages is Node 14 (#10527)
+- The minimum supported Node version for all the SDK packages is Node 14 (#10527)
 - Remove `spanStatusfromHttpCode` in favour of `getSpanStatusFromHttpCode` (#10361)
 - Remove deprecated `deepReadDirSync` export from `@sentry/node` (#10564)
 - Remove `_eventFromIncompleteOnError` usage (#10553)
@@ -118,7 +118,7 @@ npx @sentry/migr8@latest
 This will let you select which updates to run, and automatically update your code. Make sure to still review all code
 changes!
 
-## Depreacted `BrowserTracing` integration
+## Deprecated `BrowserTracing` integration
 
 The `BrowserTracing` integration, together with the custom routing instrumentations passed to it, are deprecated in v8.
 Instead, you should use `Sentry.browserTracingIntegration()`.
@@ -243,7 +243,16 @@ only be set later during the span lifecycle (and thus not be available during sa
 
 ## Deprecate `wrapRemixHandleError` in Remix SDK (since v7.100.0)
 
-This release deprecates `wrapRemixHandleError` in favor of using `sentryHandleError` from `@sentry/remix`.
+This release deprecates `wrapRemixHandleError` in favor of using `sentryHandleError` from `@sentry/remix`. It can be
+used as below:
+
+````typescript
+// entry.server.ts
+
+export const handleError = Sentry.wrapHandleErrorWithSentry(() => {
+  // Custom handleError implementation
+});
+```
 
 ## Deprecate using `getClient()` to check if the SDK was initialized
 
@@ -337,7 +346,7 @@ typescript:
 
 ```ts
 const replay = getClient().getIntegrationByName<Replay>('Replay');
-```
+````
 
 ## Deprecate `Hub`
 
@@ -1139,8 +1148,8 @@ version.
 ### Import Changes
 
 Due to the compiler change, our NPM package structure changed as well as it now conforms to the
-[**Angular** Package Format v10](https://docs.google.com/document/d/1uh2D6XqaGh2yjjXwfF4SrJqWl1MBhMPntlNBBsk6rbw/edit).
-In case you're importing from specific paths other than `@sentry/angular` you will have to adjust these paths. As an
+[Angular Package Format v10](https://docs.google.com/document/d/1uh2D6XqaGh2yjjXwfF4SrJqWl1MBhMPntlNBBsk6rbw/edit). In
+case you're importing from specific paths other than `@sentry/angular` you will have to adjust these paths. As an
 example, `import ... from '@sentry/angular/esm/injex.js'` should be changed to
 `import ... from '@sentry/angular/esm2015/index.js'`. Generally, we strongly recommend only importing from
 `@sentry/angular`.
