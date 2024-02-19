@@ -1,6 +1,6 @@
 {
   "name": "@sentry/integrations",
-  "version": "7.100.0",
+  "version": "8.0.0-alpha.0",
   "description": "Pluggable integrations that can be used to enhance JS SDKs",
   "repository": "git://github.com/getsentry/sentry-javascript.git",
   "homepage": "https://github.com/getsentry/sentry-javascript/tree/master/packages/integrations",
@@ -29,12 +29,12 @@
     }
   },
   "dependencies": {
-    "@sentry/core": "7.100.0",
-    "@sentry/types": "7.100.0",
-    "@sentry/utils": "7.100.0"
+    "@sentry/core": "8.0.0-alpha.0",
+    "@sentry/types": "8.0.0-alpha.0",
+    "@sentry/utils": "8.0.0-alpha.0"
   },
   "devDependencies": {
-    "@sentry/browser": "7.100.0",
+    "@sentry/browser": "8.0.0-alpha.0",
     "chai": "^4.1.2"
   },
   "scripts": {
