@@ -26,6 +26,11 @@
   "devDependencies": {
     "ts-node": "10.9.1"
   },
+  "pnpm": {
+    "overrides": {
+      "@sentry/node": "latest || *"
+    }
+  },
   "volta": {
     "extends": "../../package.json"
   }
