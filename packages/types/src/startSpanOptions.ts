@@ -20,6 +20,9 @@ export interface StartSpanOptions extends TransactionContext {
   /** An op for the span. This is a categorization for spans. */
   op?: string;
 
+  /** If set to true, this span will be treated as a transaction in the Sentry UI. */
+  isTransaction?: boolean;
+
   /**
    * The origin of the span - if it comes from auto instrumentation or manual instrumentation.
    *
