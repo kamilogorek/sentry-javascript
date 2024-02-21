@@ -363,8 +363,7 @@ describe('startSpan', () => {
     const normalizedTransactionEvents = transactionEvents.map(event => {
       return {
         ...event,
-        // eslint-disable-next-line deprecation/deprecation
-        spans: event.spans?.map(span => ({ name: span.name, id: span.spanContext().spanId })),
+        spans: event.spans?.map(span => ({ name: spanToJSON(span).description, id: span.spanContext().spanId })),
         sdkProcessingMetadata: {
           dynamicSamplingContext: event.sdkProcessingMetadata?.dynamicSamplingContext,
         },
@@ -387,65 +386,57 @@ describe('startSpan', () => {
     // inner span ID should _not_ be the parent span ID, but the id of the new span
     expect(innerSpanId).not.toEqual(innerParentSpanId);
 
-    expect(outerTransaction).toEqual(
-      expect.objectContaining({
-        contexts: {
-          trace: {
-            data: {
-              'sentry.source': 'custom',
-              'sentry.sample_rate': 1,
-              'sentry.origin': 'manual',
-            },
-            span_id: expect.any(String),
-            trace_id: expect.any(String),
-            origin: 'manual',
-          },
+    expect(outerTransaction?.contexts).toEqual({
+      trace: {
+        data: {
+          'sentry.source': 'custom',
+          'sentry.sample_rate': 1,
+          'sentry.origin': 'manual',
         },
-        spans: [{ name: 'inner span', id: expect.any(String) }],
-        tags: {
-          transaction: 'outer transaction',
-        },
-        sdkProcessingMetadata: {
-          dynamicSamplingContext: {
-            environment: 'production',
-            trace_id: outerTraceId,
-            sample_rate: '1',
-            transaction: 'outer transaction',
-            sampled: 'true',
-          },
-        },
-      }),
-    );
+        span_id: expect.any(String),
+        trace_id: expect.any(String),
+        origin: 'manual',
+      },
+    });
+    expect(outerTransaction?.spans).toEqual([{ name: 'inner span', id: expect.any(String) }]);
+    expect(outerTransaction?.tags).toEqual({
+      transaction: 'outer transaction',
+    });
+    expect(outerTransaction?.sdkProcessingMetadata).toEqual({
+      dynamicSamplingContext: {
+        environment: 'production',
+        trace_id: outerTraceId,
+        sample_rate: '1',
+        transaction: 'outer transaction',
+        sampled: 'true',
+      },
+    });
 
-    expect(innerTransaction).toEqual(
-      expect.objectContaining({
-        contexts: {
-          trace: {
-            data: {
-              'sentry.source': 'custom',
-              'sentry.origin': 'manual',
-            },
-            parent_span_id: innerParentSpanId,
-            span_id: expect.any(String),
-            trace_id: outerTraceId,
-            origin: 'manual',
-          },
+    expect(innerTransaction?.contexts).toEqual({
+      trace: {
+        data: {
+          'sentry.source': 'custom',
+          'sentry.origin': 'manual',
         },
-        spans: [{ name: 'inner span 2', id: expect.any(String) }],
-        tags: {
-          transaction: 'inner transaction',
-        },
-        sdkProcessingMetadata: {
-          dynamicSamplingContext: {
-            environment: 'production',
-            trace_id: outerTraceId,
-            sample_rate: '1',
-            transaction: 'outer transaction',
-            sampled: 'true',
-          },
-        },
-      }),
-    );
+        parent_span_id: innerParentSpanId,
+        span_id: expect.any(String),
+        trace_id: outerTraceId,
+        origin: 'manual',
+      },
+    });
+    expect(innerTransaction?.spans).toEqual([{ name: 'inner span 2', id: expect.any(String) }]);
+    expect(innerTransaction?.tags).toEqual({
+      transaction: 'inner transaction',
+    });
+    expect(innerTransaction?.sdkProcessingMetadata).toEqual({
+      dynamicSamplingContext: {
+        environment: 'production',
+        trace_id: outerTraceId,
+        sample_rate: '1',
+        transaction: 'outer transaction',
+        sampled: 'true',
+      },
+    });
   });
 
   it("picks up the trace id off the parent scope's propagation context", () => {
@@ -657,8 +648,7 @@ describe('startSpanManual', () => {
     const normalizedTransactionEvents = transactionEvents.map(event => {
       return {
         ...event,
-        // eslint-disable-next-line deprecation/deprecation
-        spans: event.spans?.map(span => ({ name: span.name, id: span.spanContext().spanId })),
+        spans: event.spans?.map(span => ({ name: spanToJSON(span).description, id: span.spanContext().spanId })),
         sdkProcessingMetadata: {
           dynamicSamplingContext: event.sdkProcessingMetadata?.dynamicSamplingContext,
         },
@@ -681,65 +671,57 @@ describe('startSpanManual', () => {
     // inner span ID should _not_ be the parent span ID, but the id of the new span
     expect(innerSpanId).not.toEqual(innerParentSpanId);
 
-    expect(outerTransaction).toEqual(
-      expect.objectContaining({
-        contexts: {
-          trace: {
-            data: {
-              'sentry.source': 'custom',
-              'sentry.sample_rate': 1,
-              'sentry.origin': 'manual',
-            },
-            span_id: expect.any(String),
-            trace_id: expect.any(String),
-            origin: 'manual',
-          },
+    expect(outerTransaction?.contexts).toEqual({
+      trace: {
+        data: {
+          'sentry.source': 'custom',
+          'sentry.sample_rate': 1,
+          'sentry.origin': 'manual',
         },
-        spans: [{ name: 'inner span', id: expect.any(String) }],
-        tags: {
-          transaction: 'outer transaction',
-        },
-        sdkProcessingMetadata: {
-          dynamicSamplingContext: {
-            environment: 'production',
-            trace_id: outerTraceId,
-            sample_rate: '1',
-            transaction: 'outer transaction',
-            sampled: 'true',
-          },
-        },
-      }),
-    );
+        span_id: expect.any(String),
+        trace_id: expect.any(String),
+        origin: 'manual',
+      },
+    });
+    expect(outerTransaction?.spans).toEqual([{ name: 'inner span', id: expect.any(String) }]);
+    expect(outerTransaction?.tags).toEqual({
+      transaction: 'outer transaction',
+    });
+    expect(outerTransaction?.sdkProcessingMetadata).toEqual({
+      dynamicSamplingContext: {
+        environment: 'production',
+        trace_id: outerTraceId,
+        sample_rate: '1',
+        transaction: 'outer transaction',
+        sampled: 'true',
+      },
+    });
 
-    expect(innerTransaction).toEqual(
-      expect.objectContaining({
-        contexts: {
-          trace: {
-            data: {
-              'sentry.source': 'custom',
-              'sentry.origin': 'manual',
-            },
-            parent_span_id: innerParentSpanId,
-            span_id: expect.any(String),
-            trace_id: outerTraceId,
-            origin: 'manual',
-          },
+    expect(innerTransaction?.contexts).toEqual({
+      trace: {
+        data: {
+          'sentry.source': 'custom',
+          'sentry.origin': 'manual',
         },
-        spans: [{ name: 'inner span 2', id: expect.any(String) }],
-        tags: {
-          transaction: 'inner transaction',
-        },
-        sdkProcessingMetadata: {
-          dynamicSamplingContext: {
-            environment: 'production',
-            trace_id: outerTraceId,
-            sample_rate: '1',
-            transaction: 'outer transaction',
-            sampled: 'true',
-          },
-        },
-      }),
-    );
+        parent_span_id: innerParentSpanId,
+        span_id: expect.any(String),
+        trace_id: outerTraceId,
+        origin: 'manual',
+      },
+    });
+    expect(innerTransaction?.spans).toEqual([{ name: 'inner span 2', id: expect.any(String) }]);
+    expect(innerTransaction?.tags).toEqual({
+      transaction: 'inner transaction',
+    });
+    expect(innerTransaction?.sdkProcessingMetadata).toEqual({
+      dynamicSamplingContext: {
+        environment: 'production',
+        trace_id: outerTraceId,
+        sample_rate: '1',
+        transaction: 'outer transaction',
+        sampled: 'true',
+      },
+    });
   });
 
   it('allows to pass a `startTime`', () => {
@@ -879,8 +861,7 @@ describe('startInactiveSpan', () => {
     const normalizedTransactionEvents = transactionEvents.map(event => {
       return {
         ...event,
-        // eslint-disable-next-line deprecation/deprecation
-        spans: event.spans?.map(span => ({ name: span.name, id: span.spanContext().spanId })),
+        spans: event.spans?.map(span => ({ name: spanToJSON(span).description, id: span.spanContext().spanId })),
         sdkProcessingMetadata: {
           dynamicSamplingContext: event.sdkProcessingMetadata?.dynamicSamplingContext,
         },
@@ -903,65 +884,57 @@ describe('startInactiveSpan', () => {
     // inner span ID should _not_ be the parent span ID, but the id of the new span
     expect(innerSpanId).not.toEqual(innerParentSpanId);
 
-    expect(outerTransaction).toEqual(
-      expect.objectContaining({
-        contexts: {
-          trace: {
-            data: {
-              'sentry.source': 'custom',
-              'sentry.sample_rate': 1,
-              'sentry.origin': 'manual',
-            },
-            span_id: expect.any(String),
-            trace_id: expect.any(String),
-            origin: 'manual',
-          },
+    expect(outerTransaction?.contexts).toEqual({
+      trace: {
+        data: {
+          'sentry.source': 'custom',
+          'sentry.sample_rate': 1,
+          'sentry.origin': 'manual',
         },
-        spans: [{ name: 'inner span', id: expect.any(String) }],
-        tags: {
-          transaction: 'outer transaction',
-        },
-        sdkProcessingMetadata: {
-          dynamicSamplingContext: {
-            environment: 'production',
-            trace_id: outerTraceId,
-            sample_rate: '1',
-            transaction: 'outer transaction',
-            sampled: 'true',
-          },
-        },
-      }),
-    );
+        span_id: expect.any(String),
+        trace_id: expect.any(String),
+        origin: 'manual',
+      },
+    });
+    expect(outerTransaction?.spans).toEqual([{ name: 'inner span', id: expect.any(String) }]);
+    expect(outerTransaction?.tags).toEqual({
+      transaction: 'outer transaction',
+    });
+    expect(outerTransaction?.sdkProcessingMetadata).toEqual({
+      dynamicSamplingContext: {
+        environment: 'production',
+        trace_id: outerTraceId,
+        sample_rate: '1',
+        transaction: 'outer transaction',
+        sampled: 'true',
+      },
+    });
 
-    expect(innerTransaction).toEqual(
-      expect.objectContaining({
-        contexts: {
-          trace: {
-            data: {
-              'sentry.source': 'custom',
-              'sentry.origin': 'manual',
-            },
-            parent_span_id: innerParentSpanId,
-            span_id: expect.any(String),
-            trace_id: outerTraceId,
-            origin: 'manual',
-          },
+    expect(innerTransaction?.contexts).toEqual({
+      trace: {
+        data: {
+          'sentry.source': 'custom',
+          'sentry.origin': 'manual',
         },
-        spans: [],
-        tags: {
-          transaction: 'inner transaction',
-        },
-        sdkProcessingMetadata: {
-          dynamicSamplingContext: {
-            environment: 'production',
-            trace_id: outerTraceId,
-            sample_rate: '1',
-            transaction: 'outer transaction',
-            sampled: 'true',
-          },
-        },
-      }),
-    );
+        parent_span_id: innerParentSpanId,
+        span_id: expect.any(String),
+        trace_id: outerTraceId,
+        origin: 'manual',
+      },
+    });
+    expect(innerTransaction?.spans).toEqual([]);
+    expect(innerTransaction?.tags).toEqual({
+      transaction: 'inner transaction',
+    });
+    expect(innerTransaction?.sdkProcessingMetadata).toEqual({
+      dynamicSamplingContext: {
+        environment: 'production',
+        trace_id: outerTraceId,
+        sample_rate: '1',
+        transaction: 'outer transaction',
+        sampled: 'true',
+      },
+    });
   });
 
   it('allows to pass a `startTime`', () => {
