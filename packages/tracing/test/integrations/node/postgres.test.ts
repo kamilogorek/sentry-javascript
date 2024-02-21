@@ -2,11 +2,10 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Hub, Scope, SentrySpan } from '@sentry/core';
 import type { Span } from '@sentry/types';
-import { loadModule, logger } from '@sentry/utils';
+import { loadModule } from '@sentry/utils';
 import pg from 'pg';
 
 import { Integrations } from '../../../src';
-import { getTestClient } from '../../testutils';
 
 class PgClient {
   // https://node-postgres.com/api/client#clientquery

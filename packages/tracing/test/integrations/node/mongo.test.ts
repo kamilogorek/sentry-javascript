@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Hub, Scope, SentrySpan } from '@sentry/core';
 import type { Span } from '@sentry/types';
-import { logger } from '@sentry/utils';
 
 import { Integrations } from '../../../src';
 import { getTestClient } from '../../testutils';

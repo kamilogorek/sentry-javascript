@@ -1,9 +1,6 @@
 /* eslint-disable deprecation/deprecation */
-import * as sentryCore from '@sentry/core';
-import { Hub } from '@sentry/core';
 
 import { Integrations } from '../../../src';
-import { getTestClient } from '../../testutils';
 
 const mockStartSpan = jest.fn();
 
