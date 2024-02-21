@@ -114,15 +114,6 @@ describe('SentrySpan', () => {
       span.setStatus('permission_denied');
       expect((span.getTraceContext() as any).status).toBe('permission_denied');
     });
-
-    // TODO (v8): Remove
-    test('setHttpStatus', () => {
-      const span = new SentrySpan({});
-      span.setHttpStatus(404);
-      expect((span.getTraceContext() as any).status).toBe('not_found');
-      expect(span.tags['http.status_code']).toBe('404');
-      expect(span.data['http.response.status_code']).toBe(404);
-    });
   });
 
   describe('toJSON', () => {
