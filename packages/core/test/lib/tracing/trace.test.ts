@@ -333,7 +333,7 @@ describe('startSpan', () => {
     expect(getActiveSpan()).toBe(undefined);
   });
 
-  it('allows to force a transaction with isTransaction=true', async () => {
+  it('allows to force a transaction with forceTransaction=true', async () => {
     const options = getDefaultTestClientOptions({ tracesSampleRate: 1.0 });
     client = new TestClient(options);
     setCurrentClient(client);
@@ -350,7 +350,7 @@ describe('startSpan', () => {
 
     startSpan({ name: 'outer transaction' }, () => {
       startSpan({ name: 'inner span' }, () => {
-        startSpan({ name: 'inner transaction', isTransaction: true }, () => {
+        startSpan({ name: 'inner transaction', forceTransaction: true }, () => {
           startSpan({ name: 'inner span 2' }, () => {
             // all good
           });
@@ -623,7 +623,7 @@ describe('startSpanManual', () => {
     expect(getActiveSpan()).toBe(undefined);
   });
 
-  it('allows to force a transaction with isTransaction=true', async () => {
+  it('allows to force a transaction with forceTransaction=true', async () => {
     const options = getDefaultTestClientOptions({ tracesSampleRate: 1.0 });
     client = new TestClient(options);
     setCurrentClient(client);
@@ -640,7 +640,7 @@ describe('startSpanManual', () => {
 
     startSpanManual({ name: 'outer transaction' }, span => {
       startSpanManual({ name: 'inner span' }, span => {
-        startSpanManual({ name: 'inner transaction', isTransaction: true }, span => {
+        startSpanManual({ name: 'inner transaction', forceTransaction: true }, span => {
           startSpanManual({ name: 'inner span 2' }, span => {
             // all good
             span?.end();
@@ -852,7 +852,7 @@ describe('startInactiveSpan', () => {
     expect(getActiveSpan()).toBeUndefined();
   });
 
-  it('allows to force a transaction with isTransaction=true xxx', async () => {
+  it('allows to force a transaction with forceTransaction=true xxx', async () => {
     const options = getDefaultTestClientOptions({ tracesSampleRate: 1.0 });
     client = new TestClient(options);
     setCurrentClient(client);
@@ -869,7 +869,7 @@ describe('startInactiveSpan', () => {
 
     startSpan({ name: 'outer transaction' }, () => {
       startSpan({ name: 'inner span' }, () => {
-        const innerTransaction = startInactiveSpan({ name: 'inner transaction', isTransaction: true });
+        const innerTransaction = startInactiveSpan({ name: 'inner transaction', forceTransaction: true });
         innerTransaction?.end();
       });
     });

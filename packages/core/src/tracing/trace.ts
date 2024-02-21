@@ -36,7 +36,7 @@ export function startSpan<T>(context: StartSpanOptions, callback: (span: Span | 
       : createChildSpanOrTransaction(hub, {
           parentSpan,
           spanContext,
-          isTransaction: context.isTransaction,
+          forceTransaction: context.forceTransaction,
           scope,
         });
 
@@ -85,7 +85,7 @@ export function startSpanManual<T>(
       : createChildSpanOrTransaction(hub, {
           parentSpan,
           spanContext,
-          isTransaction: context.isTransaction,
+          forceTransaction: context.forceTransaction,
           scope,
         });
 
@@ -147,7 +147,7 @@ export function startInactiveSpan(context: StartSpanOptions): Span | undefined {
   return createChildSpanOrTransaction(hub, {
     parentSpan,
     spanContext,
-    isTransaction: context.isTransaction,
+    forceTransaction: context.forceTransaction,
     scope: temporaryScope,
   });
 }
@@ -267,12 +267,12 @@ function createChildSpanOrTransaction(
   {
     parentSpan,
     spanContext,
-    isTransaction,
+    forceTransaction,
     scope,
   }: {
     parentSpan: Span | undefined;
     spanContext: TransactionContext;
-    isTransaction?: boolean;
+    forceTransaction?: boolean;
     scope: Scope;
   },
 ): Span | undefined {
@@ -283,7 +283,7 @@ function createChildSpanOrTransaction(
   const isolationScope = getIsolationScope();
 
   let span: Span | undefined;
-  if (parentSpan && !isTransaction) {
+  if (parentSpan && !forceTransaction) {
     // eslint-disable-next-line deprecation/deprecation
     span = parentSpan.startChild(spanContext);
     addChildSpanToSpan(parentSpan, span);
