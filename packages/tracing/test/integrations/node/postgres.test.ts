@@ -118,21 +118,6 @@ describe('setupOnce', () => {
     });
   });
 
-  it("doesn't attach when using otel instrumenter", () => {
-    const loggerLogSpy = jest.spyOn(logger, 'log');
-
-    const client = getTestClient({ instrumenter: 'otel' });
-    const hub = new Hub(client);
-
-    const integration = new Integrations.Postgres();
-    integration.setupOnce(
-      () => {},
-      () => hub,
-    );
-
-    expect(loggerLogSpy).toBeCalledWith('Postgres Integration is skipped because of instrumenter configuration.');
-  });
-
   it('does not attempt resolution when module is passed directly', async () => {
     const scope = new Scope();
     jest.spyOn(scope, 'getSpan').mockReturnValueOnce(new SentrySpan());

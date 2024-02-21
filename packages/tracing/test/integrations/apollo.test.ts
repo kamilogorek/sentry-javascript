@@ -109,19 +109,4 @@ describe('setupOnce', () => {
     });
     expect(childSpan.end).toBeCalled();
   });
-
-  it("doesn't attach when using otel instrumenter", () => {
-    const loggerLogSpy = jest.spyOn(logger, 'log');
-
-    const client = getTestClient({ instrumenter: 'otel' });
-    const hub = new Hub(client);
-
-    const integration = new Integrations.Apollo();
-    integration.setupOnce(
-      () => {},
-      () => hub,
-    );
-
-    expect(loggerLogSpy).toBeCalledWith('Apollo Integration is skipped because of instrumenter configuration.');
-  });
 });

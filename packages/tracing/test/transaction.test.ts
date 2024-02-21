@@ -41,18 +41,6 @@ describe('`Transaction` class', () => {
       expect(spanToJSON(transaction).data?.[SEMANTIC_ATTRIBUTE_SENTRY_SOURCE]).toEqual('custom');
     });
 
-    it('sets instrumenter to be `sentry` in constructor if not provided', () => {
-      const transaction = new Transaction({ name: 'dogpark' });
-
-      expect(transaction.instrumenter).toEqual('sentry');
-    });
-
-    it('allows to set instrumenter', () => {
-      const transaction = new Transaction({ name: 'dogpark', instrumenter: 'otel' });
-
-      expect(transaction.instrumenter).toEqual('otel');
-    });
-
     describe('`updateName` method', () => {
       it("sets source to `'custom'` if no source provided", () => {
         const transaction = new Transaction({ name: 'dogpark' });

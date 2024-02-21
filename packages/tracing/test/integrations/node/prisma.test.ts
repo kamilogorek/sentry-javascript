@@ -67,19 +67,4 @@ describe('setupOnce', function () {
       done();
     });
   });
-
-  it("doesn't trace when using otel instrumenter", done => {
-    const prismaClient = new PrismaClient();
-    new Integrations.Prisma({ client: prismaClient });
-
-    const client = getTestClient({ instrumenter: 'otel' });
-    const hub = new Hub(client);
-
-    jest.spyOn(sentryCore, 'getCurrentHub').mockReturnValue(hub);
-
-    void prismaClient.user.create()?.then(() => {
-      expect(mockStartSpan).not.toHaveBeenCalled();
-      done();
-    });
-  });
 });

@@ -143,19 +143,4 @@ describe('patchOperation()', () => {
     });
     expect(childSpan.end).toBeCalled();
   });
-
-  it("doesn't attach when using otel instrumenter", () => {
-    const loggerLogSpy = jest.spyOn(logger, 'log');
-
-    const client = getTestClient({ instrumenter: 'otel' });
-    const hub = new Hub(client);
-
-    const integration = new Integrations.Mongo();
-    integration.setupOnce(
-      () => {},
-      () => hub,
-    );
-
-    expect(loggerLogSpy).toBeCalledWith('Mongo Integration is skipped because of instrumenter configuration.');
-  });
 });
