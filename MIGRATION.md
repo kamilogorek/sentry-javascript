@@ -246,7 +246,7 @@ only be set later during the span lifecycle (and thus not be available during sa
 This release deprecates `wrapRemixHandleError` in favor of using `sentryHandleError` from `@sentry/remix`. It can be
 used as below:
 
-````typescript
+```typescript
 // entry.server.ts
 
 export const handleError = Sentry.wrapHandleErrorWithSentry(() => {
@@ -346,7 +346,7 @@ typescript:
 
 ```ts
 const replay = getClient().getIntegrationByName<Replay>('Replay');
-````
+```
 
 ## Deprecate `Hub`
 
